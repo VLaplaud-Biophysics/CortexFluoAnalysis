@@ -17,13 +17,13 @@ mkdir(ff)
 
 for kname = 1:length(Names)
     
-    stackname = Names{kname}
+    stackname = Names{kname};
     
     if size(varargin)==0
     savename = stackname;
     else
         savename = varargin{1}{kname};
-end
+    end
     
     %% depliage de l'image
     
@@ -43,23 +43,17 @@ end
     % réupération de la stack, selection de la cellules seulement et calcul des centres
     [Xc,Yc,ImgStack] = findcenter(path,stackname,stacksize,th);
     
-    savenamepic = [ff filesep savename '_Pic.tif'];
+  
     savename1   = [ff filesep savename '_CleanedUp.tif'];
-    savename2   = [df filesep savename '_CleanedUp.tif'];
     
     if exist(savename1)
         delete(savename1)
-        delete(savename2)
     end
     
     for ks = 1:stacksize
         imwrite(ImgStack{ks}, savename1, 'WriteMode', 'append', 'Compression','none','resolution',Res);
     end
-    
-    slice = round(rand(1)*stacksize);
-    imwrite(ImgStack{slice}, savenamepic,'Compression','none','resolution',Res);
-    
-    copyfile(savename1, savename2)
+      
     
     % Création de l'image dépliée a la bonne taille
     [ly,lx] = getoutputsize(ImgStack{1},Xc(1),Yc(1));
@@ -79,9 +73,9 @@ end
         
         UfI(:,:,ks) = RadialUnfolding(Itmp,Xc(ks),Yc(ks));
         
-        figure(2)
-        imshow(UfI(:,:,ks))
-        pause
+%         figure(2)
+%         imshow(UfI(:,:,ks))
+%         pause
         
         UfImask = UfI(:,:,ks) <2;
         A = all(UfImask,2);
@@ -93,20 +87,16 @@ end
     
     UfI = UfI(ptr+1:end,:,:);
     
-    savename3 = [ff filesep savename '.tif'];
-    savename4 = [df filesep savename '.tif'];
+    savename3 = [ff filesep savename '_Unfolded.tif'];
     
     if exist(savename3)
         delete(savename3)
-        delete(savename4)
     end
     
     for ks = 1:stacksize
         imwrite(UfI(:,:,ks), savename3, 'WriteMode', 'append', 'Compression','none','resolution',Res);
         
     end
-    copyfile(savename3, savename4)
-    
     
 end
 
