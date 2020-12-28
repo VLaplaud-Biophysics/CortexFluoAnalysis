@@ -1,4 +1,4 @@
-function MeasureMaxActin(path,savepath,dates,specif,tags,PLOTPEAKS)
+function MeasureMaxActin(path,savepath,Names,specif,col,PLOTFIG,PLOTVID)
 
 %% INIT
 
@@ -10,202 +10,141 @@ set(0,'DefaultTextInterpreter','none');
 set(0,'DefaultAxesFontSize',15)
 
 sf   = savepath;
-
-datenow = datestr(now,'yy-mm-dd');
-
-mkdir(sf)
-
-ff = [sf filesep 'Figures'];
+ff = [sf filesep 'Figures' filesep 'Curves'];
 vf = [sf filesep 'Videos'];
 
-ff = [ff filesep datenow filesep 'FluoPeaks'];
-mkdir(ff)
-
-
-
-color{1} = [0 0.7 0.3];
-color{2} = [1 0.2 0.5];
-
-AllInts = [];
-AllDens = [];
-AllSizs = [];
-
-%% Main
-for kd = 1:length(dates)
-    for kt = 1:length(tags)
-        %% Chargement de l'image déplié
-        imgname = [path filesep dates{kd} '_' specif '_S' tags{kt} '.tif'];
-        if exist(imgname)
-            Iinfo = imfinfo(imgname);
-            stacksize = length(Iinfo);
-            
-            Res = Iinfo(1).XResolution;
-            Scale = 1000/Res; % in nanometer per pixel
-%             Scale = 75; % in nanometer per pixel
-            
-            Itmp = imread([path filesep dates{kd} '_' specif '_S' tags{kt} '.tif'],'tiff',1);
-            
-            
-            [lx,ly] = size(Itmp);
-            
-            UfI = uint8(zeros([lx,ly,stacksize]));
-            
-            for ks = 1:stacksize
-                UfI(:,:,ks) = imread([path filesep dates{kd} '_' specif '_S' tags{kt} '.tif'],'tiff',ks);
-            end
-            
-            name = [dates{kd} '_' specif '_S' tags{kt}];
-            MA{kt}.name = name;
-            
-            %% Mesure de la quantitée d'actin dans une zone du cortex            
-            AllPix = double(UfI(1:end));
-            CelPix = AllPix(AllPix>0);
-            PixTh = 2*mode(CelPix);
-            
-            pos = [40 80 120 160 200 240 280 320];
-            MA{kt}.pos = pos;
-            
-
-            
-            
-            for kpos = 1:length(pos)
-                for ks = 1:stacksize
-                    box = double(UfI(:,pos(kpos)-3:pos(kpos)+3,ks));
-                    
-                    bw = box>PixTh;
-                    bw2 = bwpropfilt(bw,'Area',1);
-                    
-                    boxprofile = mean(box,2);
-                    
-                    nbpx = round(Res);
-                    rem = Res-nbpx;
-                    
-                    level = (sum(boxprofile(end-nbpx+1:end)) + rem*boxprofile(end-nbpx))/Res;
-
-
-                    sup = find(boxprofile>level);
-
-                    ActinSizPx{kpos}(ks) = (length(boxprofile) - sup(1));
-                    
-                    
-%                     figure
-%                     hold on
-%                     plot(boxprofile,'-*')
-%                     plot(length(boxprofile)-nbpx:length(boxprofile),...
-%                         boxprofile(end-nbpx:end),'ro','linewidth',2)
-%                     plot([0 length(boxprofile)],[level level])
-%                     plot(sup(1),boxprofile(sup(1)),'rs','linewidth',2)
-%                     hold off
-                    
-                    
-             
-                    
-                    ActinInt(ks)  = sum(box(bw2));
-                    ActinDen(ks) = mean(box(bw2));
-                    
-                end
-                
-                ActinSiz = (ActinSizPx{kpos}-min(ActinSizPx{kpos}))*Scale;
-                
-                ActinDen(isnan(ActinDen)) = 0;
-                
-                ActinIntS = smooth(ActinInt,5,'sgolay',3);
-                ActinDenS = smooth(ActinDen,5,'sgolay',3);
-                ActinSizS = smooth(ActinSiz,5,'sgolay',3);          
-                
-                ActinIntN = ActinIntS/(mean(ActinIntS))*100;
-                
-                IntCentered = (ActinInt - mean(ActinInt))/(mean(ActinInt))*100;
-                DenCentered = ActinDen - PixTh;
-                
-                AllInts = [AllInts IntCentered];
-                AllDens = [AllDens DenCentered];
-                AllSizs = [AllSizs ActinSiz];
-                
-                T = 0:length(ActinIntN)-1;
-                MA{kt}.time{kpos} = T;
-                
-                
-                [Pks,TpsPks,wPks,pPks] =  findpeaks(ActinDenS,T);
-
-                MA{kt}.curveDen{kpos} = ActinDenS;
-
-                MA{kt}.peaksDen{kpos} = [Pks TpsPks' wPks' pPks];
-                
-                clear Pks TpsPks wPks pPks
-                
-
-                [Pks,TpsPks,wPks,pPks] =  findpeaks(ActinSizS,T,'MinPeakProminence',2*Scale);  
-
-                MA{kt}.curveSiz{kpos} = ActinSizS;
-
-                MA{kt}.peaksSiz{kpos} = [Pks TpsPks' wPks' pPks];
-                
-                clear Pks TpsPks wPks pPks
-                
-                
-                [Pks,TpsPks,wPks,pPks] =  findpeaks(ActinIntN,T);
-                %             findpeaks(ActinIntN,T,'annotate','extents')
-                
-                
-                MA{kt}.curveInt{kpos} = ActinIntN;
-
-                MA{kt}.peaksInt{kpos} = [Pks TpsPks' wPks' pPks];
-                
-                
-                
-
-
-                
-               %                                     findpeaks(ActinIntN,T,'annotate','extents','MinPeakProminence',20)
-                %                                     xlabel('T (s)')
-                %                                     ylabel('Intensity (norm)')
-                %                                     title([name '-' num2str(pos(kpos)) 'deg'])
-                %                                     fig = gcf;
-                %                                     saveas(fig,[ff filesep name '-FluoCurve'  num2str(pos(kpos)) 'deg_' specif '.png'],'png')
-                %
-                %                                     saveas(fig,[df filesep name '-FluoCurve'  num2str(pos(kpos)) 'deg_' specif '.fig'],'fig')
-                %                                     close
-                %             %
-                clear ActinInt* T Pks TpsPks pPks wPks ActinDen* ActinSiz ActinSizS
-            end
-            
-            if PLOTPEAKS
-                
-                
-                mkdir([ff filesep name '_Peaks'])
-                mkdir([df filesep name '_Peaks'])
-                for ks = 1:stacksize
-                    fig = figure;
-                    imshow(imadjust(UfI(:,:,ks)))
-                    hold on
-                    title([name '_T = ' num2str(ks)])
-                    
-                    for kpos = 1:length(pos)
-                        plot([pos(kpos)-4 pos(kpos)-4],[0 lx],'--g')
-                        plot([pos(kpos)+4 pos(kpos)+4],[0 lx],'--g')
-                        
-                        plot([pos(kpos) pos(kpos)],[lx lx-ActinSizPx{kpos}(ks)],'r','linewidth',2)
-                        
-                    end
-                    
-                    
-
-                    saveas(fig, [ff filesep name '_Peaks' filesep num2str(ks) '.tif'],'tiff');
-                    saveas(fig, [df filesep name '_Peaks' filesep num2str(ks) '.tif'],'tiff');
-
-                    close(fig)
-                end
-            end
-            
-            clear ActinSizPx
-        end        
-    end
+mkdir(sf)
+if PLOTFIG
+    mkdir(ff)
+end
+if PLOTVID
+    mkdir(vf)
 end
 
-Prob.allints= AllInts;
-Prob.alldens= AllDens;
-Prob.allsizs= AllSizs;
 
-save([sf filesep 'MA_' specif],'MA','Prob')
+%% Main
+
+AllMeds = [];
+AllFlucts = [];
+
+for kn = 1:length(Names)
+    %% Chargement de l'image déplié
+    imgname = [path filesep Names{kn} '_Unfolded.tif'];
+    if exist(imgname)
+        
+        
+        name = Names{kn};
+        MA{kn}.name = name;
+        
+        Iinfo = imfinfo(imgname);
+        stacksize = length(Iinfo);
+        
+        pos = [30 60 90 120 150 180 210 240 270 300 330];
+        MA{kn}.pos = pos;
+        npos = length(pos);
+        posn = 1:npos;
+        MA{kn}.posn = posn;
+        
+        IntTime = zeros(stacksize,npos);
+        
+        MedInt = [];
+        FluctInt = [];
+        
+        
+        for ks = 1:stacksize
+            
+            ImgCurrent = imread(imgname,'tiff',ks);
+            
+            [lx,~] = size(ImgCurrent);
+            
+            if PLOTVID
+                figure(1)
+                imshow(ImgCurrent)
+            end
+            
+            %% Mesure de l'actin Max au cours du temps a plusieur endroit sur le cortex
+            
+            
+            for kp = 1:length(pos)
+                line = double(ImgCurrent(:,pos(kp)));
+                
+                
+                [MaxInt,MaxPos] = max(line);
+                
+                IntTime(ks,kp) = MaxInt;
+                
+                if PLOTVID
+                    figure(1)
+                    hold on
+                    plot([pos(kp) pos(kp)],[1 lx],'-y')
+                    plot(pos(kp),MaxPos,'ro','markersize',5,'markerfacecolor','r')
+                    text(pos(kp)-5,0.1*lx,num2str(posn(kp)),'fontsize',20,'color','w','fontname','serif','fontweight','bold','horizontalalignment','center')
+                end
+            end
+            
+            if PLOTVID
+                figure(1)
+                pause(0.1)
+                Frames(ks) = getframe(gcf);
+                hold off
+            end
+            
+        end
+        
+        if PLOTVID
+            % create the video writer with 10 fps
+            writerObj = VideoWriter([vf filesep Names{kn} '_Vid'],'Uncompressed AVI');
+            writerObj.FrameRate = 20;
+            
+            % open the video writer
+            open(writerObj);
+            % write the frames to the video
+            for i=1:length(Frames)
+                % convert the image to a frame
+                frame = Frames(i) ;
+                writeVideo(writerObj, frame);
+            end
+            % close the writer object
+            close(writerObj);
+            
+            clear Frames frame
+        end
+        
+        
+        for kp = 1:npos
+            
+            CurveInt = IntTime(:,kp);
+            MedInt = [MedInt median(CurveInt)];
+            FluctInt = [FluctInt (prctile(CurveInt,90)-prctile(CurveInt,10))];
+            
+            if PLOTFIG
+                figure
+                hold on
+                plot(smooth(CurveInt),'color',col,'linewidth',1.5)
+                title([Names{kn} '-' num2str(posn(kp))])
+                xlabel('Time (s)')
+                ylabel('Intensity (a.u.)')
+                fig = gcf;
+                saveas(gcf,[ff filesep Names{kn} '-' num2str(pos(kp)) '_TimeINtensity.png'])
+                saveas(gcf,[ff filesep Names{kn} '-' num2str(pos(kp)) '_TimeINtensity.fig'])
+                close
+            end
+        end
+        
+        MA{kn}.MedInts = MedInt;
+        MA{kn}.FluctInts = FluctInt;
+        
+        AllMeds = [AllMeds MedInt];
+        AllFlucts = [AllFlucts FluctInt];
+        
+    else
+        error([imgname ' not found']);
+    end
+    
+end
+
+MA{kn}.AllMeds = AllMeds;
+MA{kn}.AllFlucts = AllFlucts;
+
+save([sf filesep 'MA_' specif],'MA')
 end
