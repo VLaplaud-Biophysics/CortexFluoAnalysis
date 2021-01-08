@@ -16,10 +16,10 @@ Cck = [182 109 255]./255; % ck666
 
 
 MainPath = 'F:\Raw\ConfocJudith';
-SavePathUnfolded = 'F:\Raw\ConfocJudith\Unfolded';
-SavePathAnalysis = 'F:\Raw\ConfocJudith\Analysis';
+PathUnfolded = 'F:\Raw\ConfocJudith\Unfolded';
+PathAnalysis = 'F:\Raw\ConfocJudith\Analysis';
   
-PLOTVID = 1;
+PLOTVID = 0;
 PLOTFIG = 1;
 
 return
@@ -35,7 +35,7 @@ Folder = [MainPath filesep '18.07.20_ConfocJudith\20180720_DCValentin_TIF_Ctrl']
 Names     = {'Series002_Fluo','Series004_Fluo','Series008_Fluo','Series009_Fluo','Series011_Fluo','Series018_Fluo'};
 SaveNames = {'200718_Ctrl_1' ,'200718_Ctrl_2' ,'200718_Ctrl_3' ,'200718_Ctrl_4' ,'200718_Ctrl_5' ,'200718_Ctrl_6' };
 
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -44,16 +44,16 @@ Folder = [MainPath filesep '18.07.20_ConfocJudith\20180720_DCValentin_TIF_CK666'
 Names     = {'Series002_CK666_Fluo','Series004_CK666_Fluo','Series006_CK666_Fluo','Series008_CK666_Fluo'};
 SaveNames = {'200718_CK666_1'      ,'200718_CK666_2'      ,'200718_CK666_3'      ,'200718_CK666_4'      };
 
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
 % Ctrl 12-12-18
 Folder = [MainPath filesep '18.12.12_ConfocJudith\20181212_DCLA_TIF_Ctrl'];
-Names     = {'Series002_Ctrl_Fluo','Series002_Ctrl_Fluo','Series002_Ctrl_Fluo','Series002_Ctrl_Fluo'};
+Names     = {'Series002_Ctrl_Fluo','Series006_Ctrl_Fluo','Series010_Ctrl_Fluo','Series012_Ctrl_Fluo'};
 SaveNames = {'121218_Ctrl_1'      ,'121218_Ctrl_2'      ,'121218_Ctrl_3'      ,'121218_Ctrl_4'      };
 
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -62,7 +62,7 @@ Folder = [MainPath filesep '18.12.12_ConfocJudith\20181212_DCLA_TIF_CK666'];
 Names     = {'Series004_CK666_Fluo','Series006_CK666_Fluo','Series010_CK666_Fluo'};
 SaveNames = {'121218_CK666_1'      ,'121218_CK666_2'     ,'121218_CK666_3'       };
  
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -71,7 +71,7 @@ Folder = [MainPath filesep '18.12.12_ConfocJudith\20181212_DCLA_TIF_Y27'];
 Names     = {'Series004_Y27_Fluo','Series007_Y27_Fluo','Series009_Y27_Fluo','Series011_Y27_Fluo','Series013_Y27_Fluo','Series016_Y27_Fluo'};
 SaveNames = {'121218_Y27_1'      ,'121218_Y27_2'      ,'121218_Y27_3'      ,'121218_Y27_4'      ,'121218_Y27_5'      ,'121218_Y27_6'      };
  
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -80,7 +80,7 @@ Folder = [MainPath filesep '18.12.17_ConfocJudith\20181217_DCLA_TIF_Ctrl'];
 Names     = {'Series008_Ctrl_Fluo','Series011_Ctrl_Fluo'};
 SaveNames = {'171218_Ctrl_1'      ,'171218_Ctrl_2'      };
 
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -89,7 +89,7 @@ Folder = [MainPath filesep '18.12.17_ConfocJudith\20181217_DCLA_TIF_CK666'];
 Names     = {'Series004_CK666_Fluo','Series008_CK666_Fluo','Series014_CK666_Fluo','Series017_CK666_Fluo','Series030_CK666_Fluo','Series034_CK666_Fluo'};
 SaveNames = {'171218_CK666_1'      ,'171218_CK666_2'      ,'171218_CK666_3'      ,'171218_CK666_4'      ,'171218_CK666_5'      ,'171218_CK666_6'      };
  
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -98,7 +98,7 @@ Folder = [MainPath filesep '18.12.17_ConfocJudith\20181217_DCLA_TIF_Y27'];
 Names     = {'Series003_Y27_Fluo','Series005_Y27_Fluo','Series008_Y27_Fluo','Series010_Y27_Fluo','Series012_Y27_Fluo'};
 SaveNames = {'171218_Y27_1'      ,'171218_Y27_2'      ,'171218_Y27_3'      ,'171218_Y27_4'      ,'171218_Y27_5'      };
  
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -107,7 +107,7 @@ Folder = [MainPath filesep '18.12.17_ConfocJudith\20181217_DCLA_TIF_Smifh2'];
 Names     = {'Series007_Smifh2_Fluo','Series009_Smifh2_Fluo','Series011_Smifh2_Fluo','Series013_Smifh2_Fluo','Series019_Smifh2_Fluo'};
 SaveNames = {'171218_Smifh2_1'      ,'171218_Smifh2_2'      ,'171218_Smifh2_3'      ,'171218_Smifh2_4'      ,'171218_Smifh2_5'      };
  
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -116,7 +116,7 @@ Folder = [MainPath filesep '18.12.20_ConfocJudith\20181220_DCLA_TIF_Ctrl'];
 Names     = {'Series014_Ctrl_Fluo'}; % ctrl_series016 not analyzed
 SaveNames = {'201218_Ctrl_1'      };
 
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -125,7 +125,7 @@ Folder = [MainPath filesep '18.12.20_ConfocJudith\20181220_DCLA_TIF_Y27'];
 Names     = {'Series005_Y27_Fluo','Series009_Y27_Fluo','Series014_Y27_Fluo','Series022_Y27_Fluo','Series027_Y27_Fluo'};
 SaveNames = {'201218_Y27_1'      ,'201218_Y27_2'      ,'201218_Y27_3'      ,'201218_Y27_4'      ,'201218_Y27_5'      };
  
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -135,7 +135,7 @@ Folder = [MainPath filesep '18.12.20_ConfocJudith\20181220_DCLA_TIF_Smifh2'];
 Names     = {'Series003_Smifh2_Fluo','Series006_Smifh2_Fluo','Series007_Smifh2_Fluo','Series011_Smifh2_Fluo','Series023_Smifh2_Fluo','Series030_Smifh2_Fluo','Series036_Smifh2_Fluo','Series040_Smifh2_Fluo','Series048_Smifh2_Fluo'};
 SaveNames = {'201218_Smifh2_1'      ,'201218_Smifh2_2'      ,'201218_Smifh2_3'      ,'201218_Smifh2_4'      ,'201218_Smifh2_5'      ,'201218_Smifh2_6'      ,'201218_Smifh2_7'      ,'201218_Smifh2_8'      ,'201218_Smifh2_9'      };
  
-CellFluoUnfolding(Folder,SavePathUnfolded,Names,Th,SaveNames)
+CellFluoUnfolding(Folder,PathUnfolded,Names,Th,SaveNames)
 clear Folder Names SaveNames
 
 
@@ -143,30 +143,34 @@ clear Folder Names SaveNames
 
 
 % Ctrl 
-Names = {'200718_Ctrl_2','200718_Ctrl_3','200718_Ctrl_4','200718_Ctrl_5' ,...
+Names = {'200718_Ctrl_1','200718_Ctrl_2','200718_Ctrl_3','200718_Ctrl_5' ,...
     '200718_Ctrl_6','121218_Ctrl_1','121218_Ctrl_2','121218_Ctrl_3','121218_Ctrl_4',...
-    '171218_Ctrl_1','171218_Ctrl_2','201218_Ctrl_1'}; % '200718_Ctrl_1',
-MeasureMaxActin(SavePathUnfolded,SavePathAnalysis,Names,'Ctrl',Cdm,PLOTFIG,PLOTVID)
+    '171218_Ctrl_1'}; % ,'201218_Ctrl_1' '200718_Ctrl_4','171218_Ctrl_2',
+MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'Ctrl',Cdm,PLOTFIG,PLOTVID)
 
 % Y27
 Names = {'121218_Y27_1','121218_Y27_2','121218_Y27_3','121218_Y27_4','121218_Y27_5',...
     '121218_Y27_6','171218_Y27_1','171218_Y27_2','171218_Y27_3','171218_Y27_4' ,...
     '171218_Y27_5','201218_Y27_1','201218_Y27_2','201218_Y27_3','201218_Y27_4','201218_Y27_5'};
-MeasureMaxActin(SavePathUnfolded,SavePathAnalysis,Names,'Y27',Cy,PLOTFIG,PLOTVID)
+MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'Y27',Cy,PLOTFIG,PLOTVID)
 
 % CK666
 Names = {'200718_CK666_1','200718_CK666_2','200718_CK666_3','200718_CK666_4',...
     '121218_CK666_1','121218_CK666_2','121218_CK666_3' ,'171218_CK666_1',...
     '171218_CK666_2','171218_CK666_3','171218_CK666_4','171218_CK666_5','171218_CK666_6'};
-MeasureMaxActin(SavePathUnfolded,SavePathAnalysis,Names,'CK666',Cck,PLOTFIG,PLOTVID)
+MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'CK666',Cck,PLOTFIG,PLOTVID)
 
 % Smifh2
-Names = {'171218_Smifh2_1','171218_Smifh2_2','171218_Smifh2_3','171218_Smifh2_4',...
-    '171218_Smifh2_5','201218_Smifh2_1','201218_Smifh2_2','201218_Smifh2_3',...
+Names = {'171218_Smifh2_2','171218_Smifh2_3','171218_Smifh2_4',...
+    '171218_Smifh2_5','201218_Smifh2_1','201218_Smifh2_2','201218_Smifh2_3',... '171218_Smifh2_1',
     '201218_Smifh2_4','201218_Smifh2_5','201218_Smifh2_6','201218_Smifh2_7','201218_Smifh2_8','201218_Smifh2_9'};
-MeasureMaxActin(SavePathUnfolded,SavePathAnalysis,Names,'Smifh2',Cs,PLOTFIG,PLOTVID)
+MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'Smifh2',Cs,PLOTFIG,PLOTVID) 
 
 
+%% Plots
+
+PlotMaxActin({'Ctrl','Y27','CK666','Smifh2'},{'Ctrl','Y27','CK666','Smifh2'},{Cdm,Cy,Cck,Cs},PathAnalysis,'All')
+PlotMaxActin({'Ctrl','Y27'},{'Ctrl','Y27'},{Cdm,Cy},PathAnalysis,'CtrlY27')
 
 %%  Hairness analysis 
 
