@@ -20,7 +20,7 @@ PathUnfolded = 'F:\Raw\ConfocJudith\Unfolded';
 PathAnalysis = 'F:\Raw\ConfocJudith\Analysis';
   
 PLOTVID = 0;
-PLOTFIG = 1;
+PLOTFIG = 0;
 
 return
 

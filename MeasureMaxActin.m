@@ -42,7 +42,7 @@ for kn = 1:length(Names)
         Iinfo = imfinfo(imgname);
         stacksize = length(Iinfo);
         
-        pos = [15 30 45 60 75 90 105 120 135 150 165 180 195 210 225 240 255 270 285 300 315 330 345];
+        pos = 5:5:355;
         MA{kn}.pos = pos;
         npos = length(pos);
         posn = 1:npos;
@@ -98,8 +98,8 @@ for kn = 1:length(Names)
                 end
             end
             
-            
-            MeanBckgrndImg(ks) = mean(mean(ImgCurrent(lx-4:lx,:)));
+            BckgrndPixels = ImgCurrent(lx-20:lx,:);
+            MeanBckgrndImg(ks) = mean(BckgrndPixels(BckgrndPixels>0));
             
             if PLOTVID
                 figure(1)
@@ -134,21 +134,23 @@ for kn = 1:length(Names)
         
         
         for kp = 1:npos
+           if max(Extensions(:,kp))<20
             
-            CurveExt = Extensions(:,kp);
+           
             
-            CurveInt = IntTime(CurveExt<21,kp);
-%             CurveInt = IntTime(:,kp);
-            MedInt(kp) =  median(CurveInt);
+      
+            CurveInt = IntTime(:,kp);
+             Xvect = 1:length(CurveInt);
+            MedInt(kp) =  nanmedian(CurveInt);
             FluctInt(kp) = prctile(CurveInt,90)-prctile(CurveInt,10);
             
             if PLOTFIG
                 figure
                 hold on
-                plot(smooth(CurveInt),'color',col,'linewidth',1.5)
-                plot([1 length(CurveInt)],[median(CurveInt) median(CurveInt)],'r','linewidth',1.3)
-                plot([1 length(CurveInt)],[prctile(CurveInt,90) prctile(CurveInt,90)],'k--')
-                plot([1 length(CurveInt)],[prctile(CurveInt,10) prctile(CurveInt,10)],'k--','handlevisibility','off')
+                plot(Xvect,smooth(CurveInt),'-*','color',col,'linewidth',1.5)
+                plot([Xvect(1) Xvect(end)],[median(CurveInt) median(CurveInt)],'r','linewidth',1.3)
+                plot([Xvect(1) Xvect(end)],[prctile(CurveInt,90) prctile(CurveInt,90)],'k--')
+                plot([Xvect(1) Xvect(end)],[prctile(CurveInt,10) prctile(CurveInt,10)],'k--','handlevisibility','off')
                 title([Names{kn} '-' num2str(posn(kp))])
                 xlabel('Time (s)')
                 ylabel('Intensity (a.u.)')
@@ -160,8 +162,8 @@ for kn = 1:length(Names)
                 
                 figure
                 hold on
-                plot(smooth(CurveInt),'color',col,'linewidth',1.5)
-                plot(MeanBckgrndImg,'color','r','linewidth',1.5)
+                plot(Xvect,smooth(CurveInt),'-*','color',col,'linewidth',1.5)
+                plot(Xvect,MeanBckgrndImg,'-*','color','r','linewidth',1.5)
                 title([Names{kn} '-' num2str(posn(kp))])
                 xlabel('Time (s)')
                 ylabel('Intensity (a.u.)')
@@ -171,6 +173,8 @@ for kn = 1:length(Names)
                 saveas(gcf,[ff filesep Names{kn} '-' num2str(pos(kp)) '_TimeIntensitywBckGrnd.fig'])
                 close
             end
+            
+        end
         end
                 
         MA{kn}.MedInts = MedInt;

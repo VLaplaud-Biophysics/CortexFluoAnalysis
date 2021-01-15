@@ -21,8 +21,8 @@ for kx = 1:lx
         else
             Theta = Theta + 271;
         end
-        if R > 50
-            R = R-49;
+        if R > 20
+            R = R-19;
             Rm = round(R);
             Thetam = round(Theta);  
             sgR = sign(R-Rm);
@@ -32,6 +32,7 @@ for kx = 1:lx
 
             Newpic(Rm,Thetam) = Newpic(Rm,Thetam) + abs(1-rR)*abs(1-rT)*Oldpic(ky,kx);
             NewpicMask(Rm,Thetam) = NewpicMask(Rm,Thetam) + abs(1-rR)*abs(1-rT);
+
 
             Newpic(Rm+sgR,Thetam) = Newpic(Rm+sgR,Thetam) + abs(rR)*abs(1-rT)*Oldpic(ky,kx);
             NewpicMask(Rm+sgR,Thetam) = NewpicMask(Rm+sgR,Thetam) + abs(rR)*abs(1-rT);
@@ -47,7 +48,7 @@ for kx = 1:lx
 end
 
 Newpic = Newpic./NewpicMask;
-Newpic = imgaussfilt(uint8(rot90(Newpic,2)));
+Newpic = uint8(rot90(Newpic,2));
 
 end
 
