@@ -143,9 +143,9 @@ clear Folder Names SaveNames
 
 
 % Ctrl 
-Names = {'200718_Ctrl_1', '200718_Ctrl_4','200718_Ctrl_5' ,'200718_Ctrl_2',...
-    '200718_Ctrl_6','121218_Ctrl_1','121218_Ctrl_2','121218_Ctrl_4',...
-    }; % '171218_Ctrl_2','200718_Ctrl_3','171218_Ctrl_1','121218_Ctrl_3','201218_Ctrl_1',
+Names = {'200718_Ctrl_2','201218_Ctrl_1', '200718_Ctrl_4','200718_Ctrl_5' ,...
+    '200718_Ctrl_6','121218_Ctrl_1','121218_Ctrl_2','121218_Ctrl_3','121218_Ctrl_4',...
+    }; % '171218_Ctrl_2','200718_Ctrl_1','200718_Ctrl_3','171218_Ctrl_1'
 MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'Ctrl',Cdm,PLOTFIG,PLOTVID)
 
 % Y27
@@ -155,14 +155,14 @@ Names = {'121218_Y27_1','121218_Y27_2','121218_Y27_3','121218_Y27_4','121218_Y27
 MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'Y27',Cy,PLOTFIG,PLOTVID)
 
 % CK666
-Names = {'200718_CK666_2','200718_CK666_3','200718_CK666_4',...
+Names = {'200718_CK666_1','200718_CK666_2','200718_CK666_3','200718_CK666_4',...
     '121218_CK666_1','121218_CK666_2','121218_CK666_3' ,'171218_CK666_1',...
-    '171218_CK666_2','171218_CK666_3','171218_CK666_4'}; % '200718_CK666_1',,'171218_CK666_5','171218_CK666_6'
+    '171218_CK666_2','171218_CK666_3','171218_CK666_4','171218_CK666_5','171218_CK666_6'};
 MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'CK666',Cck,PLOTFIG,PLOTVID)
 
 % Smifh2
-Names = {'171218_Smifh2_4',... '171218_Smifh2_2','171218_Smifh2_3','171218_Smifh2_1',
-    '171218_Smifh2_5','201218_Smifh2_1','201218_Smifh2_2','201218_Smifh2_3',... 
+Names = {'171218_Smifh2_2','171218_Smifh2_3','171218_Smifh2_4',...
+    '171218_Smifh2_5','201218_Smifh2_1','201218_Smifh2_2','201218_Smifh2_3',... '171218_Smifh2_1',
     '201218_Smifh2_4','201218_Smifh2_5','201218_Smifh2_6','201218_Smifh2_7','201218_Smifh2_8','201218_Smifh2_9'};
 MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'Smifh2',Cs,PLOTFIG,PLOTVID) 
 
@@ -170,7 +170,6 @@ MeasureMaxActin(PathUnfolded,PathAnalysis,Names,'Smifh2',Cs,PLOTFIG,PLOTVID)
 %% Plots
 
 PlotMaxActin({'Ctrl','Y27','CK666','Smifh2'},{'Ctrl','Y27','CK666','Smifh2'},{Cdm,Cy,Cck,Cs},PathAnalysis,'All')
-
 PlotMaxActin({'Ctrl','Y27'},{'Ctrl','Y27'},{Cdm,Cy},PathAnalysis,'CtrlY27')
 
 %%  Hairness analysis 

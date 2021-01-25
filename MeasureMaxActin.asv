@@ -121,10 +121,10 @@ for kn = 1:length(Names)
         
         SpatialVar = nanstd(SortedIntTime,0,2);
         
-        SpatialVar(isnan(SpatialVar)) = [];
-        SpatialVar(SpatialVar==0) = [];
+        SpatialVar(SpatialVar==0) = nan;
       
         
+        SpatialVar2 = nanstd(IntTime,0,2);
         
 %         
 %         figure
